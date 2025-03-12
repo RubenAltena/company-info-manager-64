@@ -11,15 +11,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Check, CreditCard, FileText, DollarSign, ExternalLink } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { PDFViewer } from "./PDFViewer";
 
 export const Subscription = () => {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isPdfViewerOpen, setIsPdfViewerOpen] = useState(false);
   
   // Mock data for demonstration
   const contractStartDate = new Date("2023-06-15");
   const contractEndDate = new Date("2024-06-15");
   const totalSavings = 15780.42;
   const feePercentage = 20;
+  const contractPdfUrl = "https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea%20Brochure.pdf";
   
   const formatDate = (date: Date) => {
     return date.toLocaleDateString("en-US", {
@@ -95,7 +98,11 @@ export const Subscription = () => {
             </div>
             <ExternalLink className="h-4 w-4" />
           </Button>
-          <Button variant="outline" className="w-full justify-between">
+          <Button 
+            variant="outline" 
+            className="w-full justify-between"
+            onClick={() => setIsPdfViewerOpen(true)}
+          >
             <div className="flex items-center">
               <FileText className="mr-2 h-4 w-4" />
               <span>View Contract</span>
@@ -137,6 +144,14 @@ export const Subscription = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* PDF Viewer */}
+      <PDFViewer 
+        url={contractPdfUrl} 
+        open={isPdfViewerOpen} 
+        onOpenChange={setIsPdfViewerOpen}
+        title="Service Contract" 
+      />
     </div>
   );
 };
