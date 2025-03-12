@@ -8,9 +8,14 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Building, User, Mail, Briefcase, Users, DollarSign } from "lucide-react";
+import { Building, User, Mail, Briefcase, Users, DollarSign, Camera } from "lucide-react";
+import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export function CompanyInfo() {
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const companyData = {
     firstName: "John",
     lastName: "Doe",
@@ -22,13 +27,47 @@ export function CompanyInfo() {
     revenue: "Less than €1 million",
   };
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setAvatarUrl(e.target?.result as string);
+        toast.success("Company profile picture updated");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Company Information</CardTitle>
-        <CardDescription>
-          View and manage your company details
-        </CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle>Company Information</CardTitle>
+          <CardDescription>
+            View and manage your company details
+          </CardDescription>
+        </div>
+        <div className="relative">
+          <Avatar className="h-20 w-20">
+            <AvatarImage src={avatarUrl || ""} />
+            <AvatarFallback className="bg-gray-100">
+              {companyData.companyName.substring(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <Label htmlFor="picture" className="absolute bottom-0 right-0 cursor-pointer">
+            <div className="rounded-full bg-primary p-2 text-white hover:bg-primary/90">
+              <Camera className="h-4 w-4" />
+            </div>
+            <Input
+              id="picture"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageUpload}
+            />
+          </Label>
+        </div>
       </CardHeader>
       <CardContent className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Card,
@@ -25,6 +24,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -35,10 +45,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "@/components/ui/use-toast";
-import { UserPlus, Mail } from "lucide-react";
+import { toast } from "sonner";
+import { UserPlus, Mail, UserX } from "lucide-react";
 
-// Mock user data
 const initialUsers = [
   {
     id: "1",
@@ -68,18 +77,14 @@ export function UserManagement() {
   const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false);
   const [newUserEmail, setNewUserEmail] = useState("");
   const [newUserRole, setNewUserRole] = useState("Member");
+  const [userToDelete, setUserToDelete] = useState<string | null>(null);
 
   const handleInviteUser = () => {
     if (!newUserEmail.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter a valid email address",
-        variant: "destructive",
-      });
+      toast.error("Please enter a valid email address");
       return;
     }
 
-    // Simulating adding a new user
     const newUser = {
       id: `${users.length + 1}`,
       name: "Pending User",
@@ -93,10 +98,13 @@ export function UserManagement() {
     setNewUserRole("Member");
     setIsInviteDialogOpen(false);
 
-    toast({
-      title: "Invitation sent",
-      description: `Invitation has been sent to ${newUserEmail}`,
-    });
+    toast.success(`Invitation has been sent to ${newUserEmail}`);
+  };
+
+  const handleDeleteUser = (userId: string) => {
+    setUsers(users.filter(user => user.id !== userId));
+    setUserToDelete(null);
+    toast.success("User has been removed");
   };
 
   return (
@@ -202,15 +210,41 @@ export function UserManagement() {
                       {user.status}
                     </span>
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="text-right space-x-2">
                     {user.status === "Pending" ? (
                       <Button variant="outline" size="sm">
                         Resend
                       </Button>
                     ) : (
-                      <Button variant="outline" size="sm">
-                        Edit
-                      </Button>
+                      <>
+                        <Button variant="outline" size="sm">
+                          Edit
+                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="outline" size="sm">
+                              <UserX className="h-4 w-4 text-red-500" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Delete User</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Are you sure you want to delete this user? This action cannot be undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => handleDeleteUser(user.id)}
+                                className="bg-red-500 hover:bg-red-600"
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </>
                     )}
                   </TableCell>
                 </TableRow>
