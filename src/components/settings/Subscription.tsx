@@ -105,32 +105,34 @@ export const Subscription = () => {
         </CardFooter>
       </Card>
       
-      <Card>
-        <CardHeader>
-          <CardTitle>Savings Overview</CardTitle>
+      <Card className="overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20">
+          <CardTitle className="flex items-center text-blue-800 dark:text-blue-200">
+            <DollarSign className="h-6 w-6 text-blue-500 mr-2" />
+            Savings Overview
+          </CardTitle>
           <CardDescription>Your total savings identified through our service.</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-500">Total savings</p>
-              <p className="text-3xl font-bold flex items-center">
-                <DollarSign className="h-6 w-6 text-emerald-500" />
+              <p className="text-4xl font-bold flex items-center text-blue-600">
                 €{totalSavings.toLocaleString()}
               </p>
             </div>
-            <div className="bg-emerald-50 text-emerald-700 py-1 px-3 rounded-full text-sm font-medium">
+            <div className="bg-blue-50 text-blue-700 py-1.5 px-4 rounded-full text-sm font-medium border border-blue-100">
               {feePercentage}% fee
             </div>
           </div>
-          <div className="mt-6 space-y-2">
+          <div className="mt-8 space-y-3 bg-gradient-to-b from-blue-50/50 to-transparent p-4 rounded-lg">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Your fee amount</span>
-              <span className="font-medium">€{(totalSavings * feePercentage / 100).toLocaleString()}</span>
+              <span className="text-gray-600">Your fee amount</span>
+              <span className="font-medium text-blue-700">€{(totalSavings * feePercentage / 100).toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Your net savings</span>
-              <span className="font-medium">€{(totalSavings * (100 - feePercentage) / 100).toLocaleString()}</span>
+              <span className="text-gray-600">Your net savings</span>
+              <span className="font-medium text-blue-700">€{(totalSavings * (100 - feePercentage) / 100).toLocaleString()}</span>
             </div>
           </div>
         </CardContent>

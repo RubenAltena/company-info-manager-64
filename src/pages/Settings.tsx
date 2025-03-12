@@ -26,10 +26,10 @@ const Settings = () => {
       
       <main className="container mx-auto px-4 py-8">
         <Tabs defaultValue="company" value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-3 mb-8">
-            <TabsTrigger value="company">Company Information</TabsTrigger>
-            <TabsTrigger value="users">User Management</TabsTrigger>
-            <TabsTrigger value="subscription">Subscription</TabsTrigger>
+          <TabsList className="grid w-full max-w-2xl grid-cols-3 mb-8 p-1">
+            <TabsTrigger value="company" className="px-8 py-3">Company Information</TabsTrigger>
+            <TabsTrigger value="users" className="px-8 py-3">User Management</TabsTrigger>
+            <TabsTrigger value="subscription" className="px-8 py-3">Subscription</TabsTrigger>
           </TabsList>
           <TabsContent value="company">
             <CompanyInfo />
