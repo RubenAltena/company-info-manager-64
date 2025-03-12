@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CompanyInfo } from "@/components/settings/CompanyInfo";
 import { UserManagement } from "@/components/settings/UserManagement";
+import { Subscription } from "@/components/settings/Subscription";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -25,15 +26,19 @@ const Settings = () => {
       
       <main className="container mx-auto px-4 py-8">
         <Tabs defaultValue="company" value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-2 mb-8">
+          <TabsList className="grid w-full max-w-md grid-cols-3 mb-8">
             <TabsTrigger value="company">Company Information</TabsTrigger>
             <TabsTrigger value="users">User Management</TabsTrigger>
+            <TabsTrigger value="subscription">Subscription</TabsTrigger>
           </TabsList>
           <TabsContent value="company">
             <CompanyInfo />
           </TabsContent>
           <TabsContent value="users">
             <UserManagement />
+          </TabsContent>
+          <TabsContent value="subscription">
+            <Subscription />
           </TabsContent>
         </Tabs>
       </main>
